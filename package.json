@@ -2,19 +2,25 @@
   "name": "kijani-website",
   "version": "0.0.1",
   "description": "Website with custom next.js based CRM",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "https://github.com/KijaniNGO/website",
   "author": "@mrloh",
   "license": "MIT",
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "babel-node server.js --presets es2015,stage-2"
   },
   "dependencies": {
+    "express": "^4.15.2",
     "next": "^2.0.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "styled-components": "^1.4.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-2": "^6.22.0"
   }
 }

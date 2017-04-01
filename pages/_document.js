@@ -9,12 +9,11 @@ export default class MyDocument extends Document {
         }}/>
         return { ...page, styles }
     }
-
     render () {
         return (
             <html>
                 <Head>
-                    <title>My page</title>
+                    <title>Kijani</title>
                 </Head>
                 <body>
                     <Main />
