@@ -1,0 +1,9 @@
+{
+  "name": "kijani-website",
+  "version": "0.0.1",
+  "description": "Website with custom next.js based CRM",
+  "main": "index.js",
+  "repository": "https://github.com/KijaniNGO/website",
+  "author": "@mrloh",
+  "license": "MIT"
+}
