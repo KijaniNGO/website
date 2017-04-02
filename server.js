@@ -1,19 +1,27 @@
 import express from 'express'
 import next from 'next'
 import routes from './routes'
+import api from './api'
+
 
 const app = next({dev: process.env.NODE_ENV !== 'production'})
 const handle = app.getRequestHandler()
 
 app.prepare().then(async () => {
+    // init express server
     const server = express()
 
-    for (let route in routes) {
-        server.get(route, (req, res) => {
-            return app.render(req, res, routes[route], req.query)
+    // register api routes
+    server.use('/api', api)
+
+    // handle special routes defined in routes.js
+    for (let endpoint in routes) {
+        server.get(endpoint, (req, res) => {
+            return app.render(req, res, routes[endpoint], req.query)
         })
     }
 
+    // handle default routes in pages with next.js
     server.get('*', (req, res) => {
         return handle(req, res)
     })
