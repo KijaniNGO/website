@@ -1,5 +1,10 @@
 import Document, { Head, Main, NextScript } from 'next/document'
 import styleSheet from 'styled-components/lib/models/StyleSheet'
+import styled from 'styled-components'
+
+const DefaultStyles = styled.div`
+    font-size: 14px;
+`
 
 export default class MyDocument extends Document {
     static async getInitialProps ({ renderPage }) {
@@ -16,8 +21,10 @@ export default class MyDocument extends Document {
                     <title>Kijani</title>
                 </Head>
                 <body>
-                    <Main />
-                    <NextScript />
+                    <DefaultStyles>
+                        <Main />
+                        <NextScript />
+                    </DefaultStyles>
                 </body>
             </html>
         )
