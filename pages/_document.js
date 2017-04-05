@@ -19,6 +19,7 @@ export default class MyDocument extends Document {
             <html>
                 <Head>
                     <title>Kijani</title>
+                    <link rel="shortcut icon" href="static/favicon.png"/>
                 </Head>
                 <body>
                     <DefaultStyles>
