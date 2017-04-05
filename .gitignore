@@ -14,3 +14,7 @@ coverage
 
 # yarn
 yarn.lock
+yarn-error.log
+
+# nedb
+.nedb
