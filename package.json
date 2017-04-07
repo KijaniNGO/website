@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "nodemon -w server.js -w routes.js -w api server.js --exec babel-node --presets camo"
+    "start": "nodemon -w server.js -w routes.js -w api server.js --exec babel-node --presets camo",
+    "antd-theme": "lessc --clean-css static/antd-theme.less static/antd.min.css"
   },
   "dependencies": {
     "antd": "^2.9.0",
