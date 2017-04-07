@@ -1,9 +1,11 @@
 import { Router } from 'express'
 import bodyParser from 'body-parser'
-import db from './db'
+import { connect } from 'camo'
 import Blogpost from './Blogpost'
 import Author from './Author'
 
+let db
+connect('nedb://.nedb').then((conn) => db = conn)
 
 const getFirstPost = async () => {
     let tobias = await Author.create({
@@ -34,16 +36,22 @@ const save = async (data) => {
     return true
 }
 
-api.post('*', async (req, res) => {
-    console.log('API received', req.body)
-    let saved = await save(req.body)
+api.post('/blogpost', async (req, res) => {
+    console.log('API: posting blogpost')
+    const saved = await Blogpost.create(req.body).save()
     res.json({success: saved})
 })
 
-api.get('*', async (req, res) => {
-    const post = await getFirstPost()
-    console.log('API responding with', post)
-    res.json({post})
+api.get('/blogpost', async (req, res) => {
+    console.log('API: getting blogpost')
+    const blogpost = await Blogpost.find({}, {sort: '-date'})
+    res.json({blogpost})
+})
+
+api.get('/blogpost/:id', async (req, res) => {
+    const blogpost = await Blogpost.find({_id: req.id}, {sort: '-date'})
+    console.log('API: getting blogpost')
+    res.json({blogpost})
 })
 
 export default api
