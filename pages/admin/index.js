@@ -1,16 +1,10 @@
-import Head from 'next/head'
 import React from 'react'
-
-import Blogpost from './Blogpost'
-import Login from './Login'
+import AdminWrapper from '~/components/AdminWrapper'
 
 const Admin = () => (
-    <div>
-        <Head>
-            <link rel="stylesheet" href="static/antd.min.css"/>
-        </Head>
-        <Blogpost/>
-    </div>
+    <AdminWrapper>
+        <h1>Admin</h1>
+    </AdminWrapper>
 )
 
 export default Admin

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Link from 'next/link'
+import Link from '~/components/Link'
 
 const Wrapper = styled.div`
     font-family: Bree;
@@ -11,8 +11,6 @@ export default () => (
     <Wrapper>
         <h1>Hello, World!</h1>
         <h2>This is the new Kijani website</h2>
-        <Link href="/blog">
-            <a>Go To Blog</a>
-        </Link>
+        <Link href="/blog">Go To Blog</Link>
     </Wrapper>
 )

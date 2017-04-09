@@ -3,7 +3,7 @@ import styleSheet from 'styled-components/lib/models/StyleSheet'
 import styled from 'styled-components'
 
 const DefaultStyles = styled.div`
-    font-size: 14px;
+    font-size: 16px;
 `
 
 export default class MyDocument extends Document {
@@ -19,7 +19,7 @@ export default class MyDocument extends Document {
             <html>
                 <Head>
                     <title>Kijani</title>
-                    <link rel="shortcut icon" href="static/favicon.png"/>
+                    <link rel="shortcut icon" href="/static/favicon.png"/>
                 </Head>
                 <body>
                     <DefaultStyles>

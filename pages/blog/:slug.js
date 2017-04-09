@@ -1,8 +1,10 @@
 import React from 'react'
 
-const Blogpost = ({slug}) => (
+const Blogpost = (props) => (
     <div>
-        <h2>{slug}</h2>
+        <h1>Blogpost</h1>
+        <h2>{props.slug}</h2>
+        <pre>{JSON.stringify(props)}</pre>
     </div>
 )
 
