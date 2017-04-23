@@ -6,8 +6,6 @@ import { isEmpty } from 'lodash'
 import { post } from '~/api/client'
 
 const StyledForm = styled(Form)`
-    max-width: 40rem;
-    margin: 0 auto;
     padding: 1rem;
 `
 
