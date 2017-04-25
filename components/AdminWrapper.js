@@ -3,8 +3,8 @@ import Head from 'next/head'
 import styled from 'styled-components'
 import React from 'react'
 import Cookies from 'universal-cookie'
-import { Layout, Menu, Breadcrumb, Icon, Button } from 'antd'
-import { Link, Logo } from '~/components'
+import { Layout, Menu, Breadcrumb, Icon, Button, Form, Input } from 'antd'
+import { Link, onRoute, Logo } from '~/components'
 import ROUTES from '~/static/routes.json'
 
 const adminRoutes = Object.keys(ROUTES)
@@ -30,34 +30,36 @@ const getCookie = (key) => {
     return cookies.get(key)
 }
 
+const Wrapper = styled.div`
+    .ant-layout-sider-zero-width-trigger {
+        ${''/* bottom: 24px; */}
+        ${''/* top: auto; */}
+    }
+`
+
 const AdminPanel = ({children, onLogout}) => (
     <Layout style={{minHeight: "100vh"}}>
-        <Layout.Sider className="header" >
-            <div className="logo" />
+        <Layout.Sider collapsible collapsedWidth="42" breakpoint="sm" >
             <Menu
-                theme="dark"
-                mode="inline"
-                defaultSelectedKeys={[window.location.pathname.split('/').slice(0,3).join('/')+'/']}
-                style={{ lineHeight: '64px' }}
+                onClick={({key}) => key === 'LOGOUT' ? onLogout() : onRoute(key)}
+                theme="dark" mode="inline"
+                defaultSelectedKeys={['/'+window.location.pathname.split('/').filter(i => i).slice(0,2).join('/')+'/']}
             >
-                <Menu.Item key="/home" style={{height: "84px", marginLeft: "-5px"}}>
-                    <Link href="/"><Logo width="155px" withName/></Link>
+                <Menu.Item key="/" style={{height: "84px", marginLeft: "-5px"}}>
+                    <Logo width="155px" withName/>
                 </Menu.Item>
-                <Menu.Item key="/admin//">
-                    <Link href="/admin/">
-                        <Icon type="home"/>Home
-                    </Link>
+                <li className="ant-menu-item-divider" style={{margin: "12px 24px"}}></li>
+                <Menu.Item key="/admin/">
+                    <Icon type="home"/>Home
                 </Menu.Item>
                 {adminRoutes.map(route => (
                     <Menu.Item key={route.href}>
-                        <Link href={route.href}>
-                            <Icon type="bars"/>{route.name}
-                        </Link>
+                        <Icon type="bars"/>{route.name}
                     </Menu.Item>
                 ))}
-                <li className="ant-menu-item-divider" style={{margin: "20px"}}></li>
-                <Menu.Item key="logout">
-                    <Icon type="logout"/><span onClick={onLogout}>Logout</span>
+                <li className="ant-menu-item-divider" style={{margin: "12px 24px"}}></li>
+                <Menu.Item key="LOGOUT">
+                    <Icon type="logout"/>Log out
                 </Menu.Item>
             </Menu>
         </Layout.Sider>
@@ -76,11 +78,38 @@ const AdminPanel = ({children, onLogout}) => (
     </Layout>
 )
 
-const LogIn = ({onLogin}) => (
-    <div style={{textAlign: 'center', padding: '2rem'}}>
-        <Button onClick={onLogin} type="primary">log in</Button>
-    </div>
-)
+const LogIn = Form.create()(({form: {getFieldDecorator, getFieldsValue}, onLogin}) => (
+    <Layout style={{textAlign: 'center', padding: '2rem', background: "#404040", minHeight: "100vh"}}>
+        <div style={{background: '#fff', padding: 24, margin: "0 auto", borderRadius: "12px", width: "320px"}}>
+            <Form onSubmit={(e) => {
+                e.preventDefault()
+                let { user, password } = getFieldsValue()
+                if (user === 'admin@kijani.ngo' && password === 'test') {
+                    onLogin()
+                }
+            }}>
+                <h1>Admin Login</h1><br/>
+                <Form.Item>
+                    {getFieldDecorator('user', {
+                        rules: [{ required: true, message: 'Please input your email!' }],
+                    })(
+                        <Input prefix={<Icon type="mail" style={{ fontSize: 13 }} />} placeholder="Email" />
+                    )}
+                </Form.Item>
+                <Form.Item>
+                    {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Please input your Password!' }],
+                    })(
+                        <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
+                    )}
+                </Form.Item>
+                <Button type="primary" htmlType="submit">
+                    <Icon type="login"/>Log in
+                </Button>
+            </Form>
+        </div>
+    </Layout>
+))
 
 export default class AdminWrapper extends React.Component {
     constructor() {
@@ -109,14 +138,14 @@ export default class AdminWrapper extends React.Component {
 
     render() {
         return (
-            <div>
+            <Wrapper>
                 <Head><link rel="stylesheet" href="/static/antd.min.css"/></Head>
                 {this.state.loggedin ? (
                     <AdminPanel children={this.props.children} onLogout={this.logout}/>
                 ) : (
                     <LogIn onLogin={this.login}/>
                 )}
-            </div>
+            </Wrapper>
         )
     }
 }

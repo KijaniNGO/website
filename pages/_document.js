@@ -20,6 +20,7 @@ export default class MyDocument extends Document {
             <html>
                 <Head>
                     <title>Kijani</title>
+                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
                     <link rel="shortcut icon" href="/static/favicon.png"/>
                 </Head>
                 <body>
