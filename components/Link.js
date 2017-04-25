@@ -34,9 +34,4 @@ const Link = ({href, children}) => (
     </NextLink>
 )
 
-Link.propTypes = {
-    href: React.PropTypes.string,
-    children: React.PropTypes.node.isRequired
-}
-
 export default Link

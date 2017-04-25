@@ -7,13 +7,14 @@ const DefaultStyles = styled.div`
 `
 
 export default class MyDocument extends Document {
-    static async getInitialProps ({ renderPage }) {
+    static async getInitialProps ({renderPage}) {
         const page = renderPage()
         const styles = <style dangerouslySetInnerHTML={{
             __html: styleSheet.rules().map(rule => rule.cssText).join('\n')
         }}/>
-        return { ...page, styles }
+        return {...page, styles}
     }
+
     render () {
         return (
             <html>

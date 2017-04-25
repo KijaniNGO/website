@@ -3,6 +3,14 @@ import bodyParser from 'body-parser'
 import { connect } from 'camo'
 import Blogpost from './Blogpost'
 import Author from './Author'
+import Cookies from 'universal-cookie'
+
+const getAuth = (req) => {
+    const cookies = new Cookies(req.headers.cookie)
+    const auth = cookies.get('auth')
+    req.auth = auth
+    return auth
+}
 
 let db
 connect('nedb://.nedb').then((conn) => db = conn)

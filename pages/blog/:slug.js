@@ -8,7 +8,7 @@ const Blogpost = (props) => (
     </div>
 )
 
-Blogpost.getInitialProps = async ({query}) => {
+Blogpost.getInitialProps = ({query}) => {
     return query
 }
 
