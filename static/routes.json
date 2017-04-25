@@ -1,6 +1,6 @@
 {
-  "/admin/blog": "/admin/blog",
   "/blog/:slug": "/blog/:slug",
+  "/admin/blog/": "/admin/blog/index",
   "/admin/": "/admin/index",
   "/blog/": "/blog/index",
   "/": "/index"

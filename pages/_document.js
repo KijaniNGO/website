@@ -3,7 +3,7 @@ import styleSheet from 'styled-components/lib/models/StyleSheet'
 import styled from 'styled-components'
 
 const DefaultStyles = styled.div`
-    font-size: 16px;
+
 `
 
 export default class MyDocument extends Document {

@@ -12,7 +12,7 @@
     ["babel-plugin-transform-object-rest-spread"],
     ["import", [
       {"libraryName": "antd"},
-      {"libraryName": "lodash", "libraryDirectory": "/"}
+      {"libraryName": "lodash", "libraryDirectory": "/", "camel2DashComponentName": false}
     ]]
   ]
 }
