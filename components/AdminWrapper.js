@@ -32,7 +32,6 @@ const getCookie = (key) => {
 }
 
 const Wrapper = styled.div`
-
 `
 
 const AdminPanel = ({children, onLogout}) => (
@@ -67,7 +66,7 @@ const AdminPanel = ({children, onLogout}) => (
                 <Breadcrumb style={{margin: '12px 0', width: '80%'}}>
                     {window.location.pathname.split('/').map((item, i, arr) => (
                         <Breadcrumb.Item key={item}>
-                            <Link href={arr.slice(0, i+1).join('/')+'/'}>{upperFirst(item)}</Link>
+                            <Link href={arr.slice(0, i+1).join('/')+'/'}>{item}</Link>
                         </Breadcrumb.Item>
                     ))}
                 </Breadcrumb>

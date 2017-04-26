@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import AdminWrapper from '~/components/AdminWrapper'
 import { Button, Input, Form } from 'antd'
 import { isEmpty } from 'lodash'
-import { post } from '~/api/client'
+import { create } from '~/api/client'
 
 const StyledForm = styled(Form)`
     padding: 1rem;
@@ -28,7 +28,7 @@ const Blogpost = ({form: {getFieldDecorator, getFieldsValue}}) => (
 
 const handleFormSubmit = async (data) => {
     console.log('sending data to api', data)
-    const response = await post('/blogpost', data)
+    const response = await create('/blogpost', data)
     console.log(response)
 }
 

@@ -19,6 +19,11 @@ export default class Blogpost extends Document {
             date: {
                 type: Date,
                 default: Date.now
+            },
+            slug: {
+                type: String,
+                required: true,
+                unique: true
             }
         })
     }

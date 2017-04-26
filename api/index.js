@@ -1,8 +1,7 @@
 import { Router } from 'express'
 import bodyParser from 'body-parser'
 import { connect } from 'camo'
-import Blogpost from './Blogpost'
-import Author from './Author'
+import { Blogpost, Author } from './models'
 import Cookies from 'universal-cookie'
 
 const getAuth = (req) => {
@@ -23,6 +22,7 @@ const getFirstPost = async () => {
 
     let post = await Blogpost.create({
         title: 'First Post',
+        slug: 'first-post',
         content: [
             'This is a first post to the Kijani Blog.',
             'Only to test wether Camo, and NeDB work and I can figure out how to serve this data via an Express API and consume it with Next.js'
@@ -46,19 +46,27 @@ const save = async (data) => {
 
 api.post('/blogpost', async (req, res) => {
     console.log('API: posting blogpost')
-    const saved = await Blogpost.create(req.body).save()
+    let blogpost = req.body
+    blogpost.slug = blogpost.title.toLowerCase().split(' ').join('-')
+    const saved = await Blogpost.create(blogpost).save()
     res.json({success: saved})
 })
 
 api.get('/blogpost', async (req, res) => {
-    console.log('API: getting blogpost')
+    console.log('API: getting all blogposts')
     const blogposts = await Blogpost.find({}, {sort: '-date'})
     res.json({blogposts})
 })
 
-api.get('/blogpost/:id', async (req, res) => {
-    const blogpost = await Blogpost.find({_id: req.id}, {sort: '-date'})
-    console.log('API: getting blogpost')
+api.get('/blogpost/:slug', async (req, res) => {
+    console.log(`API: getting blogpost ${req.params.slug}`)
+    const blogpost = await Blogpost.find({slug: req.params.slug})
+    res.json({blogpost})
+})
+
+api.delete('/blogpost/:id', async (req, res) => {
+    console.log(`API: deleting blogpost ${req.params.id}`)
+    const blogpost = await Blogpost.deleteOne({_id: req.params.id})
     res.json({blogpost})
 })
 

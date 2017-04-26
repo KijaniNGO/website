@@ -7,15 +7,15 @@ if (typeof window !== 'undefined') {
     host = `http://localhost:${process.env.PORT}`
 }
 
-export const get = async (route="/") => {
-    let response = await fetch(`${host}/api${route}`)
-    if (response.status >= 400) {
-        throw new Error("Bad response from server");
-    } else {
-        let data = await response.json()
-        return data
-    }
-}
+// export const get = async (route="/") => {
+//     let response = await fetch(`${host}/api${route}`)
+//     if (response.status >= 400) {
+//         throw new Error("Bad response from server");
+//     } else {
+//         let data = await response.json()
+//         return data
+//     }
+// }
 
 const sendJSON = async (method, route="/", data) => {
     let response = await fetch(`${host}/api${route}`, {
@@ -34,4 +34,6 @@ const sendJSON = async (method, route="/", data) => {
 }
 
 export const put = async (route="/", data) => sendJSON('PUT', route, data)
-export const post = async (route="/", data) => sendJSON('POST', route, data)
+export const get = async (route="/", data) => sendJSON('GET', route, data)
+export const create = async (route="/", data) => sendJSON('POST', route, data)
+export const remove = async (route="/", data) => sendJSON('DELETE', route, data)

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import { Table, Icon, Modal } from 'antd'
 import { Link, LinkButton, AdminWrapper } from '~/components'
-import { get } from '~/api/client'
+import { get, remove } from '~/api/client'
 
 const onDelete = (post) => {
   Modal.confirm({
@@ -13,9 +13,7 @@ const onDelete = (post) => {
     iconType: 'exclamation-circle',
     okText: 'Delete',
     onOk() {
-      return new Promise((resolve, reject) => {
-        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-      }).catch(() => console.log('Oops errors!'));
+        return remove(`/blogpost/${post._id}`)
     },
     onCancel() {}
   })
