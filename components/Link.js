@@ -36,14 +36,26 @@ export const onRoute = (href) => {
 }
 
 
-export const LinkButton = ({href, children, ...props}) => (
+export const LinkButton = ({href, onClick, children, ...props}) => (
     <Button {...props} onClick={(e) => {e.preventDefault(); onRoute(href)}}>{children}</Button>
 )
 
-const Link = ({href, children}) => (
-    <NextLink {...getNextLinkParams(href)}>
-        <a>{children}</a>
-    </NextLink>
-)
+const Link = ({href, onClick, children}) => {
+    if(href) {
+        return (
+            <NextLink {...getNextLinkParams(href)}>
+                <a>{children}</a>
+            </NextLink>
+        )
+    } else if (onClick) {
+        return (
+            <a onClick={onClick}>{children}</a>
+        )
+    } else {
+        return (
+            <a href="#">{children}</a>
+        )
+    }
+}
 
 export default Link

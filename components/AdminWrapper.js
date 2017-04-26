@@ -3,14 +3,15 @@ import Head from 'next/head'
 import styled from 'styled-components'
 import React from 'react'
 import Cookies from 'universal-cookie'
-import { Layout, Menu, Breadcrumb, Icon, Button, Form, Input } from 'antd'
+import { Layout, Menu, Breadcrumb, Icon, Button, Form, Input, LocaleProvider } from 'antd'
+import enUS from 'antd/lib/locale-provider/en_US'
 import { Link, onRoute, Logo } from '~/components'
 import ROUTES from '~/static/routes.json'
 
 const adminRoutes = Object.keys(ROUTES)
     .filter((route) => {
         let parts = route.split('/')
-        return route !== '/admin/' && parts.length <= 4 && parts[1] === 'admin'
+        return route !== '/admin/' && (parts.length === 3 || parts.length === 4 && parts[3] === '') && parts[1] === 'admin'
     }).map((route) => ({name: upperFirst(route.split('/')[2]), href: route}))
 
 const setCookies = (obj) => {
@@ -31,10 +32,7 @@ const getCookie = (key) => {
 }
 
 const Wrapper = styled.div`
-    .ant-layout-sider-zero-width-trigger {
-        ${''/* bottom: 24px; */}
-        ${''/* top: auto; */}
-    }
+
 `
 
 const AdminPanel = ({children, onLogout}) => (
@@ -45,8 +43,8 @@ const AdminPanel = ({children, onLogout}) => (
                 theme="dark" mode="inline"
                 defaultSelectedKeys={['/'+window.location.pathname.split('/').filter(i => i).slice(0,2).join('/')+'/']}
             >
-                <Menu.Item key="/" style={{height: "84px", marginLeft: "-5px"}}>
-                    <Logo width="155px" withName/>
+                <Menu.Item key="/" style={{height: "72px", marginLeft: "10px"}}>
+                    <Logo width="125px" withName/>
                 </Menu.Item>
                 <li className="ant-menu-item-divider" style={{margin: "12px 24px"}}></li>
                 <Menu.Item key="/admin/">
@@ -64,13 +62,16 @@ const AdminPanel = ({children, onLogout}) => (
             </Menu>
         </Layout.Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
-            <Breadcrumb style={{ margin: '12px 0' }}>
-                {window.location.pathname.split('/').map((item, i, arr) => (
-                    <Breadcrumb.Item key={item}>
-                        <Link href={arr.slice(0, i+1).join('/')+'/'}>{upperFirst(item)}</Link>
-                    </Breadcrumb.Item>
-                ))}
-            </Breadcrumb>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <Button onClick={() => window.history.back()} icon="left-circle-o"/>
+                <Breadcrumb style={{margin: '12px 0', width: '80%'}}>
+                    {window.location.pathname.split('/').map((item, i, arr) => (
+                        <Breadcrumb.Item key={item}>
+                            <Link href={arr.slice(0, i+1).join('/')+'/'}>{upperFirst(item)}</Link>
+                        </Breadcrumb.Item>
+                    ))}
+                </Breadcrumb>
+            </div>
             <Layout.Content style={{ background: '#fff', padding: 24, margin: 0}}>
                 {children}
             </Layout.Content>
@@ -138,14 +139,16 @@ export default class AdminWrapper extends React.Component {
 
     render() {
         return (
-            <Wrapper>
-                <Head><link rel="stylesheet" href="/static/antd.min.css"/></Head>
-                {this.state.loggedin ? (
-                    <AdminPanel children={this.props.children} onLogout={this.logout}/>
-                ) : (
-                    <LogIn onLogin={this.login}/>
-                )}
-            </Wrapper>
+            <LocaleProvider locale={enUS}>
+                <Wrapper>
+                    <Head><link rel="stylesheet" href="/static/antd.min.css"/></Head>
+                    {this.state.loggedin ? (
+                        <AdminPanel children={this.props.children} onLogout={this.logout}/>
+                    ) : (
+                        <LogIn onLogin={this.login}/>
+                    )}
+                </Wrapper>
+            </LocaleProvider>
         )
     }
 }

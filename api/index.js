@@ -52,8 +52,8 @@ api.post('/blogpost', async (req, res) => {
 
 api.get('/blogpost', async (req, res) => {
     console.log('API: getting blogpost')
-    const blogpost = await Blogpost.find({}, {sort: '-date'})
-    res.json({blogpost})
+    const blogposts = await Blogpost.find({}, {sort: '-date'})
+    res.json({blogposts})
 })
 
 api.get('/blogpost/:id', async (req, res) => {

@@ -1,10 +1,10 @@
 import React from 'react'
 import AdminWrapper from '~/components/AdminWrapper'
 
-const Admin = () => (
+const Blogpost = () => (
     <AdminWrapper>
-        <h1>Admin Home</h1>
+        <h1>Edit Blogpost</h1>
     </AdminWrapper>
 )
 
-export default Admin
+export default Blogpost

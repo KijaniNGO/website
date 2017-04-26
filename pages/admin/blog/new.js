@@ -15,15 +15,13 @@ const Blogpost = ({form: {getFieldDecorator, getFieldsValue}}) => (
             e.preventDefault()
             handleFormSubmit(getFieldsValue())
         }}>
-            <h2>Create Blogpost</h2><br/>
+            <h1>Create New Blogpost</h1><br/>
             <Form.Item label="Title">
                 {getFieldDecorator('title')(
                     <Input/>
                 )}
             </Form.Item>
-            <Button type="primary" htmlType="submit">
-                Save
-            </Button>
+            <Button type="primary" htmlType="submit" icon="save">Save</Button>
         </StyledForm>
     </AdminWrapper>
 )
