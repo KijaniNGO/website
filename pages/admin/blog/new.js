@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import AdminWrapper from '~/components/AdminWrapper'
+import provider from '~/pages/_provider'
+import { AdminWrapper } from '~/components'
 import { Button, Input, Form } from 'antd'
 import { isEmpty } from 'lodash'
 import { create } from '~/api/client'
@@ -28,8 +29,7 @@ const Blogpost = ({form: {getFieldDecorator, getFieldsValue}}) => (
 
 const handleFormSubmit = async (data) => {
     console.log('sending data to api', data)
-    const response = await create('/blogpost', data)
-    console.log(response)
+    return create('/blogpost', data)
 }
 
-export default Form.create()(Blogpost)
+export default provider(Form.create()(Blogpost))

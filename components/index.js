@@ -1,3 +1,3 @@
-export { default as Link, LinkButton, onRoute } from './Link'
-export { default as AdminWrapper } from './AdminWrapper'
+export { Link, LinkButton, onRoute, routes } from './Router'
+export { default as AdminWrapper } from './admin/Wrapper'
 export { default as Logo } from './Logo'

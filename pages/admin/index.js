@@ -1,5 +1,6 @@
 import React from 'react'
-import AdminWrapper from '~/components/AdminWrapper'
+import provider from '~/pages/_provider'
+import { AdminWrapper } from '~/components'
 
 const Admin = () => (
     <AdminWrapper>
@@ -7,4 +8,4 @@ const Admin = () => (
     </AdminWrapper>
 )
 
-export default Admin
+export default provider(Admin)

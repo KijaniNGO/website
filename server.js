@@ -1,11 +1,20 @@
 import express from 'express'
 import next from 'next'
+import Cookies from 'universal-cookie'
 import { config } from 'dotenv'
-import api from './api'
 import { writeFile } from 'fs'
 import { sync as glob } from 'glob'
 
+import api from '~/api'
+
 config() // load .env variables into process.env
+
+const getAuth = (req) => {
+    const cookies = new Cookies(req.headers.cookie)
+    const auth = cookies.get('auth')
+    req.auth = auth
+    return auth
+}
 
 const getRoutes = () => {
     const paths = glob('pages/**/*.js', {ignore: ['**/index.js', '**/_*', '**/_*/**']})
@@ -38,7 +47,8 @@ app.prepare().then(async () => {
     for (let path in routes) {
         server.get(path, (req, res) => {
             const { params, query } = req
-            return app.render(req, res, routes[path], {...params, query})
+            const auth = getAuth(req)
+            return app.render(req, res, routes[path], {...params, query, auth})
         })
     }
 

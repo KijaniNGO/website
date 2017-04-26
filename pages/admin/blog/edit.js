@@ -1,5 +1,6 @@
 import React from 'react'
-import AdminWrapper from '~/components/AdminWrapper'
+import provider from '~/pages/_provider'
+import { AdminWrapper } from '~/components'
 import { get } from '~/api/client'
 
 const Blogpost = (props) => (
@@ -14,4 +15,4 @@ Blogpost.getInitialProps = async ({query}) => {
     return {...query, blogpost}
 }
 
-export default Blogpost
+export default provider(Blogpost)

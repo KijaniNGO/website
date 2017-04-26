@@ -4,7 +4,7 @@ const Blogpost = (props) => (
     <div>
         <h1>Blogpost</h1>
         <h2>{props.slug}</h2>
-        <pre>{JSON.stringify(props)}</pre>
+        <pre>{JSON.stringify(props, null, 4)}</pre>
     </div>
 )
 

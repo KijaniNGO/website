@@ -30,17 +30,18 @@ const getNextLinkParams = (url) => {
     return {href, as: url}
 }
 
-export const onRoute = (href) => {
-    console.log(href)
-    Router.push(href)
-}
+export const routes = ROUTES
 
+export const onRoute = (url) => {
+    const { href, as } = getNextLinkParams(url)
+    Router.push(href, as)
+}
 
 export const LinkButton = ({href, onClick, children, ...props}) => (
     <Button {...props} onClick={(e) => {e.preventDefault(); onRoute(href)}}>{children}</Button>
 )
 
-const Link = ({href, onClick, children}) => {
+export const Link = ({href, onClick, children}) => {
     if(href) {
         return (
             <NextLink {...getNextLinkParams(href)}>
@@ -57,5 +58,3 @@ const Link = ({href, onClick, children}) => {
         )
     }
 }
-
-export default Link
