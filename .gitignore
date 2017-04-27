@@ -13,7 +13,6 @@ npm-debug.log
 coverage
 
 # yarn
-yarn.lock
 yarn-error.log
 
 # nedb
