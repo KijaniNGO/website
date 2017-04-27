@@ -2,8 +2,6 @@ import React from 'react'
 import syled from 'styled-components'
 
 const Wrapper = syled.div`
-    background: black;
-    color: white;
 `
 
 const Blogpost = (props) => (

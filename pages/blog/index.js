@@ -4,8 +4,6 @@ import { get } from '~/api/client'
 import { Link } from '~/components'
 
 const Wrapper = syled.div`
-    background: black;
-    color: white;
 `
 
 const Blog = (props) => (
