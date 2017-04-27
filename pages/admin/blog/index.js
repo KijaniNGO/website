@@ -89,7 +89,7 @@ class Blogposts extends React.Component {
                             )
                         },
                     ]}
-                    dataSource={blogposts}
+                    dataSource={blogposts.map(blogpost => ({...blogpost, key: blogpost._id}))}
                     footer={() => (
                         <div style={{marginRight: '24px', textAlign: 'right'}}>
                             <LinkButton type="primary" href='/admin/blog/new' icon="plus">New Post</LinkButton>

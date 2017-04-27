@@ -23,7 +23,7 @@ const AdminMenu = ({children, onLogout, pathname}) => (
                 <Menu.Item key="/" style={{height: "72px", marginLeft: "10px"}}>
                     <Logo width="123px" withName/>
                 </Menu.Item>
-                <li className="ant-menu-item-divider" style={{margin: "12px 24px"}}></li>
+                <Menu.Divider/>
                 <Menu.Item key="/admin/">
                     <Icon type="home"/>Home
                 </Menu.Item>
@@ -32,7 +32,7 @@ const AdminMenu = ({children, onLogout, pathname}) => (
                         <Icon type="bars"/>{route.name}
                     </Menu.Item>
                 ))}
-                <li className="ant-menu-item-divider" style={{margin: "12px 24px"}}></li>
+                <Menu.Divider/>
                 <Menu.Item key="LOGOUT">
                     <Icon type="logout"/>Log out
                 </Menu.Item>
