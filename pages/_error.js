@@ -6,8 +6,17 @@ const Wrapper = styled.div`
     color: darkred;
 `
 
-export default () => (
+const ErrorPage = (query) => (
     <Wrapper>
-        <h1>Something went wrong</h1>
+        <h1>Ups</h1>
+        <h2>Something went wrong</h2>
+        <h3>The received query was</h3>
+        <pre>{JSON.stringify(query, null, 4)}</pre>
     </Wrapper>
 )
+
+ErrorPage.getInitialProps = ({query}) => {
+    return query
+}
+
+export default ErrorPage

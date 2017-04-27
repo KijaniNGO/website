@@ -14,7 +14,10 @@ const AdminMenu = ({children, onLogout, pathname}) => (
     <Layout style={{minHeight: "100vh"}}>
         <Layout.Sider collapsible collapsedWidth="42" breakpoint="sm" >
             <Menu
-                onClick={({key}) => key === 'LOGOUT' ? onLogout() : onRoute(key)}
+                onClick={({key}) => {
+                    console.log(key)
+                    key === 'LOGOUT' ? onLogout() : onRoute(key)
+                }}
                 theme="dark" mode="inline"
                 // defaultSelectedKeys={['/'+window.location.pathname.split('/').filter(i => i).slice(0,2).join('/')+'/']}
                 defaultSelectedKeys={['/'+pathname.split('/').filter(i => i).slice(0,2).join('/')+'/']}

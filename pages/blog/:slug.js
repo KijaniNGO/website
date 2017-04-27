@@ -1,11 +1,16 @@
 import React from 'react'
+import syled from 'styled-components'
+
+const Wrapper = syled.div`
+    background: black;
+    color: white;
+`
 
 const Blogpost = (props) => (
-    <div>
-        <h1>Blogpost</h1>
-        <h2>{props.slug}</h2>
+    <Wrapper>
+        <h1>{props.slug}</h1>
         <pre>{JSON.stringify(props, null, 4)}</pre>
-    </div>
+    </Wrapper>
 )
 
 Blogpost.getInitialProps = ({query}) => {

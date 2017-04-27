@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import React from 'react'
 import NextLink from 'next/link'
 import Router from 'next/router'
@@ -26,7 +27,7 @@ const getRouteParams = (url) => {
 
 const getNextLinkParams = (url) => {
     const { pathname, route, target, params, query } = getRouteParams(url)
-    const href = formatUrl({pathname: target, query: {...params, query}})
+    const href = formatUrl({pathname: target, query: {...params, ...query}})
     return {href, as: url}
 }
 
@@ -34,6 +35,7 @@ export const routes = ROUTES
 
 export const onRoute = (url) => {
     const { href, as } = getNextLinkParams(url)
+    console.log('router pushing', as, 'via', href)
     Router.push(href, as)
 }
 
@@ -50,7 +52,7 @@ export const Link = ({href, onClick, children}) => {
         )
     } else if (onClick) {
         return (
-            <a onClick={onClick}>{children}</a>
+            <a onClick={(e) => {e.preventDefault(); onClick()}} href="#">{children}</a>
         )
     } else {
         return (

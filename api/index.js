@@ -1,8 +1,9 @@
 import { Router } from 'express'
 import bodyParser from 'body-parser'
 import { connect } from 'camo'
-import { Blogpost, Author } from './models'
+import { Blogpost, Author, User } from './models'
 import Cookies from 'universal-cookie'
+import { verify as verifyPassword } from 'password-hash'
 
 const getAuth = (req) => {
     const cookies = new Cookies(req.headers.cookie)
@@ -44,6 +45,16 @@ const save = async (data) => {
     return true
 }
 
+api.post('/authenticate', async (req, res) => {
+    const { username, password } = req.body
+    const { pwdhash } = await User.findOne({username})
+    if (verifyPassword(password, pwdhash)) {
+        res.json({loggedin: true, authToken: '1'})
+    } else {
+        res.json({loggedin: false})
+    }
+})
+
 api.post('/blogpost', async (req, res) => {
     console.log('API: posting blogpost')
     let blogpost = req.body
@@ -60,7 +71,7 @@ api.get('/blogpost', async (req, res) => {
 
 api.get('/blogpost/:slug', async (req, res) => {
     console.log(`API: getting blogpost ${req.params.slug}`)
-    const blogpost = await Blogpost.find({slug: req.params.slug})
+    const blogpost = await Blogpost.findOne({slug: req.params.slug})
     res.json({blogpost})
 })
 

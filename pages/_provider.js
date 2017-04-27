@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-
-const authenticate = async (auth) => {
-    return auth === '1'
-}
+import { authenticateWithToken } from '~/api/client'
 
 export default (Component) => {
     return class extends React.Component {
@@ -21,9 +18,9 @@ export default (Component) => {
         static getInitialProps = async (context) => {
             console.log('server context', context.pathname)
             const serverSide = context.req
-            const auth = context.query.auth
+            const authToken = context.query.authToken
             const pathname = serverSide ? context.req.path : Router.route
-            const loggedin = await authenticate(auth)
+            const { loggedin } = await authenticateWithToken(authToken)
             if (Component.getInitialProps) {
                 let props = await Component.getInitialProps(context)
                 return {...props, loggedin, pathname}

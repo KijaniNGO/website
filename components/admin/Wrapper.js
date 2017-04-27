@@ -2,22 +2,29 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import Cookies from 'universal-cookie'
+import moment from 'moment'
 import { LocaleProvider } from 'antd'
 import enUS from 'antd/lib/locale-provider/en_US'
+import { authenticateWithToken, authenticateWithPassword } from '~/api/client'
 
 import AdminMenu from './Menu'
 import Login from './Login'
 
-const setCookies = (obj) => {
+
+const COOKIE_OPTIONS = {
+    path: '/',
+    httpOnly: false,
+    maxAge: 14*(24*60*60)
+}
+
+const setCookie = ({key, value}) => {
     const cookies = new Cookies()
-    const OPTIONS = {
-        path: '/',
-        httpOnly: false,
-        maxAge: 14*(24*60*60)
-    }
-    for (let o in obj) {
-        cookies.set(o, obj[o], OPTIONS)
-    }
+    cookies.set(key, value, COOKIE_OPTIONS)
+}
+
+const deleteCookie = (key) => {
+    const expires = moment().startOf('day').fromNow()
+    cookies.set(key, '', {...COOKIE_OPTIONS, expires})
 }
 
 const getCookie = (key) => {
@@ -47,11 +54,11 @@ export default class AdminWrapper extends React.Component {
         this.setState({pathname: window.location.pathname})
     }
     login() {
-        setCookies({auth: '1'})
+        setCookie({key: auth, value: '1'})
         this.setState({loggedin: true})
     }
     logout() {
-        setCookies({auth: '0'})
+        deleteCookie('auth')
         this.setState({loggedin: false})
     }
     render = () => (

@@ -7,25 +7,41 @@ import { Link, LinkButton, AdminWrapper } from '~/components'
 import { get, remove } from '~/api/client'
 
 const onDelete = (blogpost, setBlogposts) => {
-  Modal.confirm({
-    title: `Do you really want to delete this blogpost?`,
-    content: `Deleting the blogpost '${blogpost.title}' cannot be undone.`,
-    maskClosable: true,
-    iconType: 'exclamation-circle',
-    okText: 'Delete',
-    onOk() {
-        return (async () => {
-            let deleted = await remove(`/blogpost/${blogpost._id}`)
-            let { blogposts } = await get('/blogpost')
-            setBlogposts(blogposts)
-        })()
-    },
-    onCancel() {}
-  })
+    Modal.confirm({
+        title: `Do you really want to delete this blogpost?`,
+        content: `Deleting the blogpost '${blogpost.title}' cannot be undone.`,
+        maskClosable: true,
+        iconType: 'exclamation-circle',
+        okText: 'Delete',
+        onOk() {
+            return (async () => {
+                let deleted = await remove(`/blogpost/${blogpost._id}`)
+                let { blogposts } = await get('/blogpost')
+                setBlogposts(blogposts)
+                return deleted
+            })()
+        },
+        onCancel() {}
+    })
 }
 
 const onPublish = (blogpost) => {
-    alert(`publishing '${blogpost.title}'`)
+    Modal.confirm({
+        title: `Do you want to publish this blogpost?`,
+        content: `Publishing the blogpost '${blogpost.title}' will make it visible on the internet.`,
+        maskClosable: true,
+        iconType: 'exclamation-circle',
+        okText: 'Publish',
+        onOk() {
+            return (async () => {
+                let published = await put(`/blogpost/${blogpost._id}`)
+                let { blogposts } = await get('/blogpost')
+                setBlogposts(blogposts)
+                return published
+            })()
+        },
+        onCancel() {}
+    })
 }
 
 const Actions = ({blogpost, onSetBlogposts}) => (
@@ -38,7 +54,7 @@ const Actions = ({blogpost, onSetBlogposts}) => (
     </div>
 )
 
-class Blog extends React.Component {
+class Blogposts extends React.Component {
     static getInitialProps = async () => {
         let data = await get('/blogpost')
         return data
@@ -85,4 +101,4 @@ class Blog extends React.Component {
     }
 }
 
-export default provider(Blog)
+export default provider(Blogposts)

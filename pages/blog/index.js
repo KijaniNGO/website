@@ -1,10 +1,11 @@
 import React from 'react'
 import syled from 'styled-components'
 import { get } from '~/api/client'
-import Link from '~/components/Link'
+import { Link } from '~/components'
 
 const Wrapper = syled.div`
-
+    background: black;
+    color: white;
 `
 
 const Blog = (props) => (
@@ -16,7 +17,6 @@ const Blog = (props) => (
         </Link>
     </Wrapper>
 )
-
 
 Blog.getInitialProps = async () => {
     console.log('fetching from api')
