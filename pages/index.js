@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link, onRoute } from '~/components'
+import NextLink from 'next/link'
 
 const Wrapper = styled.div`
     font-family: Bree;
@@ -14,6 +15,7 @@ export default () => (
         <Link href="/blog/">/blog/ Next Link</Link><br/>
         <Link onClick={() => onRoute("/blog/")}>/blog/ Router Link</Link><br/>
         <a href="/blog/">/blog/ Normal Link</a><br/>
+        <NextLink href="/blog/index">/blog/ Direct Next Link</NextLink><br/>
         <br/>
         <Link href="/blog/test-post">/blog/test-post Next Link</Link><br/>
         <Link onClick={() => onRoute("/blog/test-post")}>/blog/test-post Router Link</Link><br/>
