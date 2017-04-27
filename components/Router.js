@@ -5,8 +5,17 @@ import Router from 'next/router'
 import { Button } from 'antd'
 import { parse as parseUrl, format as formatUrl } from 'url'
 import PathMatcher from 'path-match'
+import NProgress from 'nprogress'
 
 import ROUTES from '~/static/routes.json'
+
+
+Router.onRouteChangeStart = (url) => {
+  console.log(`Loading: ${url}`)
+  NProgress.start()
+}
+Router.onRouteChangeComplete = () => NProgress.done()
+Router.onRouteChangeError = () => NProgress.done()
 
 const matchRoute = (pathname) => {
     const matcher = PathMatcher({sensitive: false, strict: false, end: false})
