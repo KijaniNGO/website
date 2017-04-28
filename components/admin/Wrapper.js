@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Cookies from 'universal-cookie'
 import { LocaleProvider } from 'antd'
 import enUS from 'antd/lib/locale-provider/en_US'
-import { authenticateWithToken, authenticateWithPassword } from '~/api/client'
+import { authenticate, login } from '~/api/client'
 
 import AdminMenu from './Menu'
 import Login from './Login'
@@ -47,17 +47,18 @@ export default class AdminWrapper extends React.Component {
         this.logout = this.logout.bind(this)
     }
     componentDidMount() {
-        const authToken = getCookie('auth')
-        if (authToken === '1') {
-            this.setState({loggedin: true})
-        }
         this.setState({pathname: window.location.pathname})
     }
-    login() {
-        setCookie('auth', '1')
-        this.setState({loggedin: true})
+    async login(username, password) {
+        const authToken = await login(username, password)
+        console.log(authToken)
+        if (authToken) {
+            setCookie('auth', authToken)
+            const loggedin = await authenticate(authToken)
+            this.setState({loggedin})
+        }
     }
-    logout() {
+    async logout() {
         deleteCookie('auth')
         this.setState({loggedin: false})
     }

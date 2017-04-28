@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
-import { authenticateWithToken } from '~/api/client'
+import { authenticate } from '~/api/client'
+import Cookies from 'universal-cookie'
 
 export default (Component) => {
     return class extends React.Component {
@@ -17,15 +17,23 @@ export default (Component) => {
         }
         static getInitialProps = async (context) => {
             console.log('server context', context.pathname)
-            const serverSide = context.req
-            const authToken = context.query.authToken
-            const pathname = serverSide ? context.req.path : Router.route
-            const { loggedin } = await authenticateWithToken(authToken)
+            let authToken, pathname
+            if (context.req) { //server side
+                authToken = new Cookies(context.req.headers.cookie).get('auth')
+                pathname = context.req.path
+            } else { //client side
+                authToken = new Cookies().get('auth')
+                pathname = window.location.pathname
+            }
+            const loggedin = await authenticate(authToken)
+            // set context that will be provided
+            const providedContext = {loggedin, pathname}
+            // get initial props of component
             if (Component.getInitialProps) {
                 let props = await Component.getInitialProps(context)
-                return {...props, loggedin, pathname}
+                return {...props, ...providedContext}
             } else {
-                return {loggedin, pathname}
+                return {...providedContext}
             }
         }
         render() {

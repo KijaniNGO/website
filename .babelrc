@@ -1,7 +1,11 @@
 {
   "env": {
     "server": {
-      "presets": ["camo"]
+      "presets": [["env", {
+        "targets": {
+          "node": ["current"]
+        }
+      }]]
     },
     "development": {
       "presets": ["next/babel"]

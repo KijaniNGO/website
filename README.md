@@ -22,6 +22,7 @@ The admin interface is based on [antd](https://ant.design/docs/react/introduce) 
 `prop-types` type declarations for react
 `antd` enterprise ui framework for react
 `styled-components` css in js framework for react
+`nprogress` add progress bar for page loading
 
 **Utilities:**
 `lodash` general js utilities
@@ -32,6 +33,7 @@ The admin interface is based on [antd](https://ant.design/docs/react/introduce) 
 `path-match` route matching
 `url` url parsing
 `glob` find disk files with glob patterns
+`uuid` generate unique ids
 
 **Server:**
 `next` react server side rendering

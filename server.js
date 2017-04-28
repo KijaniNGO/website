@@ -1,20 +1,12 @@
 import express from 'express'
 import next from 'next'
-import Cookies from 'universal-cookie'
 import { config } from 'dotenv'
-import { writeFile } from 'fs'
+import { writeFileSync } from 'fs'
 import { sync as glob } from 'glob'
 
 import api from '~/api'
 
 config() // load .env variables into process.env
-
-const getAuthToken = (req) => {
-    const cookies = new Cookies(req.headers.cookie)
-    const auth = cookies.get('auth')
-    req.auth = auth
-    return auth
-}
 
 const getRoutes = () => {
     const paths = glob('pages/**/*.js', {ignore: ['**/index.js', '**/_*', '**/_*/**']})
@@ -29,11 +21,9 @@ const getRoutes = () => {
     return routes
 }
 
-// get routes from pages directory structure
+// get routes from pages files and save to make routes accessible to frontend router
 const routes = getRoutes()
-console.log('setting up these routes\n', routes)
-// save routes to static/routes.json file to make routes accessible to Link component
-writeFile('static/routes.json', JSON.stringify(routes, null, 2))
+writeFileSync('static/routes.json', JSON.stringify(routes, null, 2))
 
 const app = next({dev: process.env.NODE_ENV !== 'production'})
 const handle = app.getRequestHandler()
@@ -50,8 +40,7 @@ app.prepare().then(async () => {
         server.get(path, (req, res) => {
             console.log('loading route:', path)
             const { params, query } = req
-            const authToken = getAuthToken(req)
-            return app.render(req, res, routes[path], {...params, query, authToken})
+            return app.render(req, res, routes[path], {...params, query})
         })
     }
 

@@ -10,7 +10,8 @@
     "dev": "next",
     "build": "NODE_ENV=development next build & NODE_ENV=server babel server.js -d .dist & NODE_ENV=server babel api -d .dist/api",
     "serve": "NODE_ENV=production node .dist/server.js",
-    "start": "NODE_ENV=server nodemon -w server.js -w api server.js --exec babel-node",
+    "start": "NODE_ENV=server nodemon --inspect -w server.js -w api server.js --exec babel-node",
+    "manage": "NODE_ENV=server babel-node manage.js",
     "antd-theme": "lessc --clean-css static/antd-theme.less static/antd.min.css"
   },
   "dependencies": {
@@ -32,14 +33,15 @@
     "react-dom": "15.4.2",
     "styled-components": "^1.4.4",
     "universal-cookie": "^2.0.5",
-    "url": "^0.11.0"
+    "url": "^0.11.0",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
     "babel-plugin-import": "^1.1.1",
     "babel-plugin-root-import": "^5.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-camo": "0.0.1",
+    "babel-preset-env": "^1.4.0",
     "nodemon": "^1.11.0"
   }
 }

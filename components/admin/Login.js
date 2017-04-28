@@ -6,14 +6,12 @@ const Login = ({form: {getFieldDecorator, getFieldsValue}, onLogin}) => (
         <div style={{background: '#fff', padding: 24, margin: "0 auto", borderRadius: "12px", width: "320px"}}>
             <Form onSubmit={(e) => {
                 e.preventDefault()
-                let { user, password } = getFieldsValue()
-                if (user === 'admin@kijani.ngo' && password === 'test') {
-                    onLogin()
-                }
+                let { username, password } = getFieldsValue()
+                onLogin(username, password)
             }}>
                 <h1>Admin Login</h1><br/>
                 <Form.Item>
-                    {getFieldDecorator('user', {
+                    {getFieldDecorator('username', {
                         rules: [{ required: true, message: 'Please input your email!' }],
                     })(
                         <Input prefix={<Icon type="mail" style={{ fontSize: 13 }} />} placeholder="Email" />

@@ -4,18 +4,12 @@ import { connect } from 'camo'
 import { Blogpost, Author, User } from './models'
 import Cookies from 'universal-cookie'
 import { verify as verifyPassword } from 'password-hash'
+import uuid from 'uuid'
 
-const getAuth = (req) => {
-    const cookies = new Cookies(req.headers.cookie)
-    const auth = cookies.get('auth')
-    req.auth = auth
-    return auth
-}
+let DB
+connect('nedb://.nedb').then((conn) => {DB = conn})
 
-let db
-connect('nedb://.nedb').then((conn) => db = conn)
-
-const getFirstPost = async () => {
+const makeFirstPost = async () => {
     let tobias = await Author.create({
         firstName: 'Tobias',
         lastName: 'Lohse'
@@ -35,25 +29,40 @@ const getFirstPost = async () => {
 }
 
 
-
-
 const api = Router()
 api.use(bodyParser.json())
 
-const save = async (data) => {
-    store = data
-    return true
-}
 
-api.post('/authenticate', async (req, res) => {
+
+
+const AUTH_TOKENS = []
+
+api.post('/login', async (req, res) => {
+    console.log('API: logging in', req.body)
     const { username, password } = req.body
-    const { pwdhash } = await User.findOne({username})
-    if (verifyPassword(password, pwdhash)) {
-        res.json({loggedin: true, authToken: '1'})
+    const users = await User.find({})
+    const user = await User.findOne({username})
+    console.log('found user', user, users)
+    if (verifyPassword(password, user.pwdhash)) {
+        const authToken = uuid()
+        AUTH_TOKENS.push(authToken)
+        res.json({loggedin: true, authToken})
     } else {
         res.json({loggedin: false})
     }
 })
+
+api.post('/auth', async (req, res) => {
+    console.log('API: authenticating')
+    const { authToken } = req.body
+    if (AUTH_TOKENS.indexOf(authToken) >= 0) {
+        res.json({loggedin: true})
+    } else {
+        res.json({loggedin: false})
+    }
+})
+
+
 
 api.post('/blogpost', async (req, res) => {
     console.log('API: posting blogpost')
