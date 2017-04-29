@@ -4,7 +4,7 @@ import provider from '~/pages/_provider'
 import { AdminWrapper } from '~/components'
 import { Button, Input, Form } from 'antd'
 import { isEmpty } from 'lodash'
-import { create } from '~/api/client'
+import { create } from '~/components/api'
 
 const StyledForm = styled(Form)`
     padding: 1rem;

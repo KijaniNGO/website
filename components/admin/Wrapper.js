@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
-import Cookies from 'universal-cookie'
 import { LocaleProvider } from 'antd'
 import enUS from 'antd/lib/locale-provider/en_US'
-import { authenticate, login } from '~/api/client'
+import { login, logout } from '~/components/api'
 
 import AdminMenu from './Menu'
 import Login from './Login'
@@ -50,17 +49,12 @@ export default class AdminWrapper extends React.Component {
         this.setState({pathname: window.location.pathname})
     }
     async login(username, password) {
-        const authToken = await login(username, password)
-        console.log(authToken)
-        if (authToken) {
-            setCookie('auth', authToken)
-            const loggedin = await authenticate(authToken)
-            this.setState({loggedin})
-        }
+        const loggedin = await login(username, password)
+        this.setState({loggedin})
     }
     async logout() {
-        deleteCookie('auth')
-        this.setState({loggedin: false})
+        const loggedin = await logout()
+        this.setState({loggedin})
     }
     render = () => (
         <LocaleProvider locale={enUS}>

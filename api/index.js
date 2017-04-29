@@ -9,31 +9,9 @@ import uuid from 'uuid'
 let DB
 connect('nedb://.nedb').then((conn) => {DB = conn})
 
-const makeFirstPost = async () => {
-    let tobias = await Author.create({
-        firstName: 'Tobias',
-        lastName: 'Lohse'
-    }).save()
-
-    let post = await Blogpost.create({
-        title: 'First Post',
-        slug: 'first-post',
-        content: [
-            'This is a first post to the Kijani Blog.',
-            'Only to test wether Camo, and NeDB work and I can figure out how to serve this data via an Express API and consume it with Next.js'
-        ],
-        author: tobias
-    }).save()
-
-    return post
-}
-
 
 const api = Router()
 api.use(bodyParser.json())
-
-
-
 
 const AUTH_TOKENS = []
 

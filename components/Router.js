@@ -10,10 +10,7 @@ import NProgress from 'nprogress'
 import ROUTES from '~/static/routes.json'
 
 
-Router.onRouteChangeStart = (url) => {
-  console.log(`Loading: ${url}`)
-  NProgress.start()
-}
+Router.onRouteChangeStart = () => NProgress.start()
 Router.onRouteChangeComplete = () => NProgress.done()
 Router.onRouteChangeError = () => NProgress.done()
 
@@ -44,7 +41,6 @@ export const routes = ROUTES
 
 export const onRoute = (url) => {
     const { href, as } = getNextLinkParams(url)
-    console.log('router pushing', as, 'via', href)
     Router.push(href, as)
 }
 

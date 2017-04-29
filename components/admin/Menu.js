@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { upperFirst } from 'lodash'
 import { Layout, Menu, Breadcrumb, Icon, Button, Form, Input } from 'antd'
 import Logo from '../Logo'
-import { Link, onRoute, routes } from '../Router'
+import { Link, onRoute, routes } from '../router'
 
 const adminRoutes = () => {
     return Object.keys(routes).filter((route) => {
@@ -12,13 +12,19 @@ const adminRoutes = () => {
     }).map((route) => ({name: upperFirst(route.split('/')[2]), href: route}))
 }
 
+const getCurrentPath = (pathname) => {
+    let path = '/'+pathname.split('/').filter(i => i).slice(0,2).join('/')+'/'
+    if (path === '/admin/index/') { path = '/admin/' }
+    return path
+}
+
 const AdminMenu = ({children, onLogout, pathname}) => (
     <Layout style={{minHeight: "100vh"}}>
         <Layout.Sider collapsible collapsedWidth="42" breakpoint="sm" >
             <Menu
                 onClick={({key}) => key === 'LOGOUT' ? onLogout() : onRoute(key)}
                 theme="dark" mode="inline"
-                defaultSelectedKeys={['/'+pathname.split('/').filter(i => i).slice(0,2).join('/')+'/']}
+                defaultSelectedKeys={[getCurrentPath(pathname)]}
             >
                 <Menu.Item key="/" style={{height: "72px", marginLeft: "10px"}}>
                     <Logo width="123px" withName/>

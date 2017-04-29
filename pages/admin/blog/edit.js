@@ -1,7 +1,7 @@
 import React from 'react'
 import provider from '~/pages/_provider'
 import { AdminWrapper } from '~/components'
-import { get } from '~/api/client'
+import { get } from '~/components/api'
 
 const Blogpost = (props) => (
     <AdminWrapper>

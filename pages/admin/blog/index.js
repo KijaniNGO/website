@@ -4,7 +4,7 @@ import moment from 'moment'
 import provider from '~/pages/_provider'
 import { Table, Icon, Modal } from 'antd'
 import { Link, LinkButton, AdminWrapper } from '~/components'
-import { get, remove } from '~/api/client'
+import { get, remove } from '~/components/api'
 
 const onDelete = (blogpost, setBlogposts) => {
     Modal.confirm({

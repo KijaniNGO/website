@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { authenticate } from '~/api/client'
+import { authenticate } from '~/components/api'
 import Cookies from 'universal-cookie'
 
 export default (Component) => {
@@ -16,15 +16,15 @@ export default (Component) => {
             }
         }
         static getInitialProps = async (context) => {
-            console.log('server context', context.pathname)
             let authToken, pathname
             if (context.req) { //server side
                 authToken = new Cookies(context.req.headers.cookie).get('auth')
                 pathname = context.req.path
             } else { //client side
                 authToken = new Cookies().get('auth')
-                pathname = window.location.pathname
+                pathname = context.pathname
             }
+            console.log('setting pathname', pathname)
             const loggedin = await authenticate(authToken)
             // set context that will be provided
             const providedContext = {loggedin, pathname}

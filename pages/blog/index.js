@@ -1,7 +1,7 @@
 import React from 'react'
 import syled from 'styled-components'
-import { get } from '~/api/client'
-import { Link } from '~/components'
+import { get } from '~/components/api'
+import { Link } from '~/components/router'
 
 const Wrapper = syled.div`
 `
