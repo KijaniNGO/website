@@ -1,34 +1,33 @@
+// @flow
 import 'isomorphic-fetch'
+import { isEmpty } from 'lodash'
 import Cookies from 'universal-cookie'
 
-let host
+type json = {[string]: any}
+
+let host: string
 if (typeof window !== 'undefined') {
     host = `http://${window.location.host}`
 } else {
-    host = `http://localhost:${process.env.PORT}`
+    const port = process.env.PORT
+    host = `http://localhost:${port ? port : 3000}`
 }
 
-const sendRequest = async (method, route='/', data) => {
-    let response = await fetch(`${host}/api${route}`, {
-        method,
-        headers: {
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
+const sendRequest = async (method: MethodType, route='/', data: json): Promise<json> => {
+    const body: ?string = isEmpty(data) ?  undefined : JSON.stringify(data)
+    const headers = {"Content-type": "application/json"}
+    let response = await fetch(`${host}/api${route}`, {body, method, headers})
     if (response.status >= 400) {
         throw new Error("Bad response from server");
     } else {
-        let data = await response.json()
-        return data
+        return await response.json()
     }
 }
 
-export const put = async (route='/', data) => sendRequest('PUT', route, data)
-export const get = async (route='/', data) => sendRequest('GET', route, data)
-export const create = async (route='/', data) => sendRequest('POST', route, data)
-export const remove = async (route='/', data) => sendRequest('DELETE', route, data)
-
+export const put = async (route:string, data: json): Promise<json> => sendRequest('PUT', route, data)
+export const get = async (route:string): Promise<json> => sendRequest('GET', route, {})
+export const create = async (route:string, data: json): Promise<json> => sendRequest('POST', route, data)
+export const remove = async (route:string): Promise<json> => sendRequest('DELETE', route, {})
 
 const COOKIE_OPTIONS = {
     path: '/',
@@ -36,30 +35,29 @@ const COOKIE_OPTIONS = {
     maxAge: 14*(24*60*60)
 }
 
-const setCookie = (key, value) => {
+const setCookie = (key: string, value: string): void => {
     new Cookies().set(key, value, COOKIE_OPTIONS)
 }
 
-const deleteCookie = (key) => {
+const deleteCookie = (key: string): void => {
     const expires = new Date(Date.now()-1000)
     new Cookies().set(key, '', {...COOKIE_OPTIONS, expires})
 }
 
-const getCookie = (key) => {
+const getCookie = (key: string): void => {
     return new Cookies().get(key)
 }
 
-export const authenticate = async (authToken) => {
+export const authenticate = async (authToken: string): Promise<boolean> => {
     const { loggedin } = await create('/auth', {authToken})
     return loggedin
 }
 
-export const login = async (username, password) => {
+export const login = async (username: string, password: string): Promise<boolean> => {
     const { loggedin, authToken } = await create('/auth/login', {username, password})
     if (authToken) {
         setCookie('auth', authToken)
-        const authIsWorking = await authenticate(authToken)
-        if (!authIsWorking) {
+        if (!await authenticate(authToken)) {
             throw Error(`there seems to be a problem with the returned authToken ${authToken}`)
         }
     } else {
@@ -68,7 +66,7 @@ export const login = async (username, password) => {
     return loggedin
 }
 
-export const logout = async () => {
+export const logout = async (): Promise<boolean> => {
     deleteCookie('auth')
     return false
 }

@@ -15,8 +15,9 @@
     }
   },
   "plugins": [
-    ["babel-plugin-root-import"],
-    ["babel-plugin-transform-object-rest-spread"],
+    ["root-import"],
+    ["transform-object-rest-spread"],
+    ["transform-flow-strip-types"],
     ["import", [
       {"libraryName": "antd"},
       {"libraryName": "lodash", "libraryDirectory": "/", "camel2DashComponentName": false}

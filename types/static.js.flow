@@ -1,0 +1,5 @@
+// @flow
+
+declare module "~/static/routes.json" {
+    declare module.exports: {[string]: string};
+}

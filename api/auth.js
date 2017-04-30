@@ -3,7 +3,6 @@ import { Router } from 'express'
 import { verify as verifyPassword } from 'password-hash'
 import uuid from 'uuid'
 
-
 class User extends Document {
     constructor() {
         super()
