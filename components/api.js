@@ -55,7 +55,7 @@ export const authenticate = async (authToken) => {
 }
 
 export const login = async (username, password) => {
-    const { loggedin, authToken } = await create('/login', {username, password})
+    const { loggedin, authToken } = await create('/auth/login', {username, password})
     if (authToken) {
         setCookie('auth', authToken)
         const authIsWorking = await authenticate(authToken)

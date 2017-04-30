@@ -1,6 +1,6 @@
 import { Document } from 'camo'
 
-export default class Author extends Document {
+export class Author extends Document {
     constructor() {
         super()
         this.schema({
