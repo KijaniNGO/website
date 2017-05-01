@@ -1,9 +1,9 @@
 import { Document } from 'camo'
 import { Router } from 'express'
-import { verify as verifyPassword } from 'password-hash'
+import { verify as verifyPassword, generate as hashPassword } from 'password-hash'
 import uuid from 'uuid'
 
-class User extends Document {
+export class User extends Document {
     constructor() {
         super()
         this.schema({
@@ -24,18 +24,42 @@ class User extends Document {
     }
 }
 
+export const saveUser = async (username, password) => {
+    if (username && password) {
+        const pwdhash = hashPassword(password)
+        const user = await User.create({username, pwdhash}).save()
+        return user
+    }
+}
+
+export { verifyPassword, hashPassword }
+
 const api = Router()
 
-let AUTH_TOKENS = []
+export const tokenStore = {
+    tokens: new Set([]),
+    add(token) { this.tokens.add(token) },
+    del(token) { this.tokens.delete(token) },
+    match(token) { return this.tokens.has(token) }
+}
 
 api.post('/', async (req, res) => {
     console.log('API: authenticating')
     const { authToken } = req.body
-    if (AUTH_TOKENS.indexOf(authToken) >= 0) {
+    if (tokenStore.match(authToken)) {
         res.json({loggedin: true})
     } else {
         res.json({loggedin: false})
     }
+})
+
+api.post('/logout', async (req, res) => {
+    console.log('API: deleting token')
+    const { authToken } = req.body
+    if (tokenStore.match(authToken)) {
+        tokenStore.del(authToken)
+    }
+    res.json({loggedin: false})
 })
 
 api.post('/login', async (req, res) => {
@@ -43,13 +67,12 @@ api.post('/login', async (req, res) => {
     const { username, password } = req.body
     const users = await User.find({})
     const user = await User.findOne({username})
-    console.log('found user', user, users)
-    if (verifyPassword(password, user.pwdhash)) {
+    if (user && verifyPassword(password, user.pwdhash)) {
         const authToken = uuid()
-        AUTH_TOKENS.push(authToken)
-        res.json({loggedin: true, authToken})
+        tokenStore.add(authToken)
+        res.json({loggedin: true, userFound: true, authToken})
     } else {
-        res.json({loggedin: false})
+        res.json({loggedin: false, userFound: !!user})
     }
 })
 

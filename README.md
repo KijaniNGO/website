@@ -44,3 +44,6 @@ The admin interface is based on [antd](https://ant.design/docs/react/introduce) 
 **Development:**
 `babel` make future js features available today
 `nodemon` watch changes and automatically restart server
+`flow` type checking for code editor
+`jest` test runner for front and backend
+`supertest` helpers for http request integratio tests

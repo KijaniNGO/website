@@ -7,10 +7,10 @@
   "author": "@mrloh",
   "license": "MIT",
   "scripts": {
-    "dev": "next",
+    "test": "jest api --watch",
+    "develop": "NODE_ENV=server nodemon --inspect -w server.js -w api server.js --exec babel-node",
     "build": "NODE_ENV=development next build & NODE_ENV=server babel server.js -d .dist & NODE_ENV=server babel api -d .dist/api",
-    "serve": "NODE_ENV=production node .dist/server.js",
-    "start": "NODE_ENV=server nodemon --inspect -w server.js -w api server.js --exec babel-node",
+    "start": "NODE_ENV=production node .dist/server.js",
     "manage": "NODE_ENV=server babel-node manage.js",
     "antd-theme": "lessc --clean-css static/antd-theme.less static/antd.min.css"
   },
@@ -38,12 +38,15 @@
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
+    "babel-jest": "^19.0.0",
     "babel-plugin-import": "^1.1.1",
     "babel-plugin-root-import": "^5.1.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.4.0",
     "flow-bin": "^0.45.0",
-    "nodemon": "^1.11.0"
+    "jest": "^19.0.2",
+    "nodemon": "^1.11.0",
+    "supertest": "^3.0.0"
   }
 }

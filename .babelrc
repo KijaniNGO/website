@@ -7,6 +7,13 @@
         }
       }]]
     },
+    "test": {
+      "presets": [["env", {
+        "targets": {
+          "node": ["current"]
+        }
+      }]]
+    },
     "development": {
       "presets": ["next/babel"]
     },
